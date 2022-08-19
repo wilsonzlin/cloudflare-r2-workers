@@ -1,0 +1,26 @@
+{
+  "name": "cloudflare-r2-workers",
+  "version": "0.0.1",
+  "main": "dist/main.js",
+  "files": [
+    "dist/**"
+  ],
+  "repository": "https://github.com/wilsonzlin/cloudflare-r2-workers",
+  "author": "Wilson Lin <npm@wilsonl.in>",
+  "license": "ISC",
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf dist",
+    "format": "prettier --ignore-path .gitignore --write '**/*.{css,html,js,json,jsx,mjs,mjsx,sass,scss,ts,tsx}'",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@xtjs/lib": "^0.45.5"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^3.14.1",
+    "prettier": "2.7.1",
+    "prettier-plugin-organize-imports": "^3.0.0",
+    "typescript": "^4.7.4"
+  }
+}
