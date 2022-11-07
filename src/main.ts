@@ -3,21 +3,16 @@ import mapDefined from "@xtjs/lib/js/mapDefined";
 import mapValue from "@xtjs/lib/js/mapValue";
 import parseRangeHeader from "@xtjs/lib/js/parseRangeHeader";
 
-const COMMON_HEADERS = {
-  "accept-ranges": "bytes",
-  "access-control-allow-credentials": "false",
-  "access-control-allow-headers": "HEAD, GET",
-  "access-control-allow-origin": "*",
-  "access-control-max-age": "86400",
-};
-
 export const handleHeadOrGetOfObject = async ({
+  additionalHeaders,
   request,
   bucket,
   key,
   contentDisposition,
   contentType,
 }: {
+  // We don't automatically set CORS headers as the Worker may perform other tasks (e.g. POST).
+  additionalHeaders?: { [name: string]: string };
   request: {
     method: string;
     headers: Headers;
@@ -64,7 +59,8 @@ export const handleHeadOrGetOfObject = async ({
     return new Response(request.method === "HEAD" ? undefined : object.body, {
       status: isPartial ? 206 : 200,
       headers: {
-        ...COMMON_HEADERS,
+        "accept-ranges": "bytes",
+        ...additionalHeaders,
         ...Object.fromEntries(responseHeaders),
         ...(!isPartial
           ? {}
